@@ -1,0 +1,93 @@
+﻿<Window x:Class="Library.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Library"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStartupLocation="CenterScreen"
+        
+        DataContext="{StaticResource MainVM}"
+        Name="mainWindow"
+        Title="Library" MinHeight="400" MinWidth="630" Height="500" Width="630">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--filer-->
+        <materialDesign:Card Grid.Row="0" Margin="5" HorizontalAlignment="Stretch">
+            <WrapPanel Margin="0 0 0 10" HorizontalAlignment="Center">
+                <TextBox Text="{Binding TitleFilter}" Width="150" Margin="5 5 15 5" HorizontalAlignment="Stretch"                        
+                         materialDesign:HintAssist.Hint="Title" 
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox Text="{Binding AuthorFilter}" Width="100" Margin="5 5 15 5" HorizontalAlignment="Stretch"
+                         materialDesign:HintAssist.Hint="Author"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <ComboBox SelectedItem="{Binding YearFilter}" ItemsSource="{Binding YearList}" HorizontalAlignment="Left"
+                          Width="50" Margin="5 5 15 5"
+                          materialDesign:HintAssist.Hint="Year"
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                <Button Command="{Binding FilterCommand}" Content="Filter" Margin="5" Width="100" 
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"/>
+                <Button Command="{Binding CancelCommand}" Content="Cancel" Margin="5" Width="100" 
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"/>
+            </WrapPanel>
+        </materialDesign:Card>
+        
+        <!--list-->
+        <materialDesign:Card Grid.Row="1" Margin="5" VerticalAlignment="Stretch">
+            <ListView Name="lvData" ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+                      VerticalAlignment="Stretch" MinHeight="200" ScrollViewer.CanContentScroll="False"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      SelectionMode="Extended">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Title}" Width="auto">
+                            <GridViewColumnHeader Click="GridViewColumnHeader_Click">
+                                Title
+                            </GridViewColumnHeader>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Author}" Width="auto">
+                            <GridViewColumnHeader Click="GridViewColumnHeader_Click">
+                                Author
+                            </GridViewColumnHeader>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Year}">
+                            <GridViewColumnHeader Click="GridViewColumnHeader_Click">
+                                Year
+                            </GridViewColumnHeader>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </materialDesign:Card>
+        
+        <!--button-->
+        <materialDesign:Card Grid.Row="2" Margin="5" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <WrapPanel HorizontalAlignment="Center">
+                <Button Command="{Binding AddCommand}" Content="Add" Margin="5 5 20 5" Width="100"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"/>
+                <Button Command="{Binding EditCommand}" Content="Edit" Margin="5 5 20 5" Width="100"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"/>
+                <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}" Content="Delete" Margin="5 5 20 5" Width="100"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"/>
+            </WrapPanel>
+        </materialDesign:Card>
+    </Grid>
+</Window>
